@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>AutoPost - AI Content Generator</title>
+  <link rel="stylesheet" href="autopost.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Main Navigation Bar -->
+    <div class="navbar-wrapper">
+      <nav class="navbar" id="navbar">
+        <div class="navbar-brand">
+          <span class="logo-icon">🤖</span>
+          <span class="logo-text">AUTOPOST AI</span>
+        </div>
+        
+        <div class="navbar-spacer"></div>
+        
+        <div class="navbar-menu">
+          <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">DASHBOARD</span>
+          </a>
+          <button class="nav-item active" onclick="switchTab('generator')" data-tab="generator">
+            <span class="nav-icon">✨</span>
+            <span class="nav-text">GENERATOR</span>
+          </button>                  
+          <button class="nav-item" onclick="switchTab('history')" data-tab="history">
+            <span class="nav-icon">📋</span>
+            <span class="nav-text">HISTORY</span>
+          </button>
+          <button class="nav-item" onclick="switchTab('settings')" data-tab="settings">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-text">SETTINGS</span>
+          </button>           
+        </div>
+        
+        <div class="navbar-status">
+          <!-- User Profile Dropdown -->
+          <div class="user-profile" id="user-profile" style="display: none;">
+            <button class="profile-avatar" onclick="toggleProfileDropdown()">
+              <span class="avatar-icon">👤</span>
+            </button>
+            <div class="profile-dropdown" id="profile-dropdown">
+              <div class="profile-header">
+                <div class="profile-avatar-large">
+                  <span class="avatar-icon-large">👤</span>
+                </div>
+                <div class="profile-info">
+                  <div class="profile-email" id="profile-email">user@example.com</div>
+                  <div class="profile-status">Logged In</div>
+                </div>
+              </div>
+              <div class="profile-actions">
+                <button class="profile-action" onclick="logout()">
+                  <span class="action-icon">🚪</span>
+                  <span class="action-text">Logout</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+    
+    <!-- Mobile Menu Panel -->
+    <div class="mobile-menu-panel" id="mobile-menu-panel">
+      <button class="mobile-close-btn" onclick="closeMobileMenu()">✕</button>
+      
+      <div class="mobile-menu-header">
+        <div class="mobile-menu-brand">
+          <span class="logo-icon">🤖</span>
+          <span class="logo-text">AUTOPOST AI</span>
+        </div>
+      </div>
+      
+      <div class="mobile-menu-content">
+        <a href="index.html" class="mobile-nav-item">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-text">DASHBOARD</span>
+        </a>
+        <button class="mobile-nav-item active" onclick="switchTab('generator'); closeMobileMenu();" data-tab="generator">
+          <span class="nav-icon">✨</span>
+          <span class="nav-text">GENERATOR</span>
+        </button>                  
+        <button class="mobile-nav-item" onclick="switchTab('history'); closeMobileMenu();" data-tab="history">
+          <span class="nav-icon">📋</span>
+          <span class="nav-text">HISTORY</span>
+        </button>
+        <button class="mobile-nav-item" onclick="switchTab('settings'); closeMobileMenu();" data-tab="settings">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-text">SETTINGS</span>
+        </button>
+      </div>
+      
+      <div class="mobile-menu-footer">
+        <div class="status-indicator">
+          <div class="status-dot" id="mobile-connection-status"></div>
+          <span class="status-text">AI READY</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-header">
+        <div class="content-header-content">
+          <h1 class="page-title" id="page-title">AI POST GENERATOR</h1>
+          <div class="header-status">
+            <div class="status-indicator">
+              <div class="status-dot" id="ai-status"></div>
+              <span class="status-text">AI READY</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post Generator Tab -->
+      <div id="generator-tab" class="tab-content active">
+        <!-- Two Column Layout for Generator -->
+        <div class="generator-layout">
+          <!-- Left Column - Form -->
+          <div class="generator-form-column">
+            <div class="content-card">
+              <div class="card-header">
+                <h2 class="card-title">✨ AI POST GENERATOR</h2>
+                <div class="card-subtitle">Transform your ideas into engaging Threads posts with AI</div>
+              </div>
+              
+              <div class="generator-info">
+                <div class="info-box">
+                  <h4>🚀 Cara Kerja AI Generator:</h4>
+                  <ul>
+                    <li>💭 <strong>Berikan ide atau topik</strong> yang ingin Anda posting</li>
+                    <li>🎯 <strong>Pilih style & tone</strong> yang sesuai dengan brand Anda</li>
+                    <li>🤖 <strong>AI akan generate</strong> konten yang menarik dan engaging</li>
+                    <li>✏️ <strong>Edit dan customize</strong> sesuai keinginan Anda</li>
+                    <li>📤 <strong>Post langsung</strong> ke Threads atau simpan draft</li>
+                  </ul>
+                </div>
+              </div>
+
+              <form id="generator-form" class="form">
+                <div class="form-section">
+                  <h3 class="section-title">INPUT IDEA</h3>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="postIdea" class="form-label">IDE POSTINGAN</label>
+                      <textarea id="postIdea" name="postIdea" rows="4" class="form-textarea" required 
+                        placeholder="Contoh: 'Tips produktivitas untuk developer', 'Review iPhone terbaru', 'Motivasi untuk entrepreneur muda'"></textarea>
+                      <div class="form-help">
+                        💡 <strong>Tips:</strong> Semakin detail ide Anda, semakin baik hasil AI. Berikan context, target audience, atau angle tertentu.
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="form-row">
+                    <div class="form-group half">
+                      <label for="postStyle" class="form-label">STYLE</label>
+                      <select id="postStyle" name="postStyle" class="form-select">
+                        <option value="casual">Casual & Friendly</option>
+                        <option value="professional">Professional</option>
+                        <option value="funny">Humor & Witty</option>
+                        <option value="inspirational">Inspirational</option>
+                        <option value="educational">Educational</option>
+                        <option value="storytelling">Storytelling</option>
+                      </select>
+                    </div>
+                    <div class="form-group half">
+                      <label for="postLength" class="form-label">PANJANG POST</label>
+                      <select id="postLength" name="postLength" class="form-select">
+                        <option value="short">Pendek (1-2 paragraf)</option>
+                        <option value="medium">Sedang (3-4 paragraf)</option>
+                        <option value="long">Panjang (5+ paragraf)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="targetAudience" class="form-label">TARGET AUDIENCE (OPSIONAL)</label>
+                      <input type="text" id="targetAudience" name="targetAudience" class="form-input" 
+                        placeholder="Contoh: 'Developer pemula', 'Entrepreneur muda', 'Content creator'">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-section">
+                  <h3 class="section-title">ADVANCED OPTIONS</h3>
+                  <div class="form-row">
+                    <div class="checkbox-group">
+                      <label class="checkbox-label">
+                        <input type="checkbox" id="includeHashtags" name="includeHashtags" class="checkbox-input" checked>
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text">INCLUDE HASHTAGS</span>
+                      </label>
+                    </div>
+                    <div class="checkbox-group">
+                      <label class="checkbox-label">
+                        <input type="checkbox" id="includeEmojis" name="includeEmojis" class="checkbox-input" checked>
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text">INCLUDE EMOJIS</span>
+                      </label>
+                    </div>
+                    <div class="checkbox-group">
+                      <label class="checkbox-label">
+                        <input type="checkbox" id="includeCTA" name="includeCTA" class="checkbox-input">
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text">INCLUDE CALL-TO-ACTION</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    <span class="btn-text">GENERATE POST</span>
+                    <span class="btn-icon">✨</span>
+                  </button>
+                  <button type="button" id="preview-btn" class="btn btn-secondary" style="display: none;">
+                    <span class="btn-text">PREVIEW</span>
+                    <span class="btn-icon">👁️</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Right Column - Generated Content -->
+          <div class="generator-result-column">
+            <!-- Single Card with Dynamic Content -->
+            <div class="content-card" id="result-card">
+              <div class="card-header">
+                <h2 class="card-title" id="result-title">📝 HASIL GENERATE</h2>
+                <div class="card-subtitle" id="result-subtitle">Generated content akan muncul di sini</div>
+              </div>
+              
+              <!-- Placeholder Content (shown by default) -->
+              <div class="result-placeholder" id="result-placeholder">
+                <div class="placeholder-content">
+                  <div class="placeholder-icon">✨</div>
+                  <h3>Siap untuk Generate Post?</h3>
+                  <p>Isi form di sebelah kiri dan klik "Generate Post" untuk melihat hasil AI di sini.</p>
+                  <div class="placeholder-tips">
+                    <h4>💡 Tips untuk hasil terbaik:</h4>
+                    <ul>
+                      <li>Berikan ide yang spesifik dan detail</li>
+                      <li>Pilih style yang sesuai target audience</li>
+                      <li>Gunakan advanced options untuk customization</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Generated Content (shown when AI generates content) -->
+              <div class="generated-post" id="generated-content" style="display: none;">
+                <div class="post-content">
+                  <div class="post-text" id="generated-text"></div>
+                  <div class="post-stats">
+                    <span class="stat-item">📝 <span id="char-count">0</span> characters</span>
+                    <span class="stat-item">📏 <span id="word-count">0</span> words</span>
+                  </div>
+                </div>
+                
+                <div class="post-actions">
+                  <button type="button" id="regenerate-btn" class="btn btn-secondary">
+                    <span class="btn-text">REGENERATE</span>
+                    <span class="btn-icon">🔄</span>
+                  </button>
+                  <button type="button" id="edit-btn" class="btn btn-tertiary">
+                    <span class="btn-text">EDIT</span>
+                    <span class="btn-icon">✏️</span>
+                  </button>
+                  <button type="button" id="save-draft-btn" class="btn btn-warning">
+                    <span class="btn-text">SAVE DRAFT</span>
+                    <span class="btn-icon">💾</span>
+                  </button>
+                  <button type="button" id="post-now-btn" class="btn btn-primary">
+                    <span class="btn-text">POST NOW</span>
+                    <span class="btn-icon">📤</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post History Tab -->
+      <div id="history-tab" class="tab-content">
+        <div class="content-card">
+          <div class="card-header">
+            <h2 class="card-title">📋 POST HISTORY</h2>
+            <div class="card-subtitle">Track all generated and posted content</div>
+          </div>
+          
+          <div class="history-controls">
+            <button type="button" id="refresh-history-btn" class="btn btn-secondary">
+              <span class="btn-text">REFRESH</span>
+              <span class="btn-icon">🔄</span>
+            </button>
+            <button type="button" id="clear-history-btn" class="btn btn-danger">
+              <span class="btn-text">CLEAR ALL</span>
+              <span class="btn-icon">🗑️</span>
+            </button>
+          </div>
+          
+          <div class="history-section">
+            <div class="history-list" id="history-list">
+              <!-- History items will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div id="settings-tab" class="tab-content">
+        <div class="content-card">
+          <div class="card-header">
+            <h2 class="card-title">⚙️ AUTOPOST SETTINGS</h2>
+            <div class="card-subtitle">Configure AI and posting preferences</div>
+          </div>
+          
+          <form id="settings-form" class="form">
+            <div class="form-section">
+              <h3 class="section-title">AI CONFIGURATION</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="aiProvider" class="form-label">AI PROVIDER</label>
+                  <select id="aiProvider" name="aiProvider" class="form-select">
+                    <option value="gemini">Google Gemini</option>
+                    <option value="openai" disabled>OpenAI (Coming Soon)</option>
+                    <option value="claude" disabled>Claude (Coming Soon)</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="systemPrompt" class="form-label">SYSTEM PROMPT</label>
+                  <textarea id="systemPrompt" name="systemPrompt" rows="6" class="form-textarea" 
+                    placeholder="Enter custom system prompt for AI content generation..."></textarea>
+                  <div class="form-help">
+                    Customize how AI generates content. Leave empty to use default prompt.
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-section">
+              <h3 class="section-title">POSTING PREFERENCES</h3>
+              <div class="form-row">
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="autoSaveDrafts" name="autoSaveDrafts" class="checkbox-input" checked>
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-text">AUTO SAVE GENERATED POSTS AS DRAFTS</span>
+                  </label>
+                </div>
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="defaultHashtags" name="defaultHashtags" class="checkbox-input" checked>
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-text">INCLUDE HASHTAGS BY DEFAULT</span>
+                  </label>
+                </div>
+                <div class="checkbox-group">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="defaultEmojis" name="defaultEmojis" class="checkbox-input" checked>
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-text">INCLUDE EMOJIS BY DEFAULT</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <span class="btn-text">SAVE SETTINGS</span>
+                <span class="btn-icon">💾</span>
+              </button>
+              <button type="button" id="reset-settings-btn" class="btn btn-danger">
+                <span class="btn-text">RESET TO DEFAULT</span>
+                <span class="btn-icon">🔄</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Global Status Messages -->
+      <div id="status" class="status-messages"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-brand">
+            <span class="footer-logo">🤖</span>
+            <span class="footer-title">AUTOPOST AI</span>
+          </div>
+          <div class="footer-description">
+            AI-powered content generator untuk Threads dengan teknologi Gemini AI
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">DOKUMENTASI</h4>
+          <div class="footer-links">
+            <a href="panduan-mudah.html" class="footer-link">
+              <span class="link-icon">📚</span>
+              <span class="link-text">Panduan Super Mudah</span>
+            </a>
+            <a href="token-guide.html" class="footer-link">
+              <span class="link-icon">📖</span>
+              <span class="link-text">Panduan Lengkap Token</span>
+            </a>
+            <a href="https://lazyprompt.io" class="footer-link">
+              <span class="link-icon">✨</span>
+              <span class="link-text">AI Prompt Generator</span>
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">FITUR UTAMA</h4>
+          <div class="footer-features">
+            <div class="feature-item">✨ AI Content Generator</div>
+            <div class="feature-item">📝 Smart Post Creation</div>
+            <div class="feature-item">📊 Post History</div>
+            <div class="feature-item">⚙️ Custom Settings</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="footer-copyright">
+          <span class="copyright-text">© 2025 AutoPost AI. All rights reserved.</span>
+          <span class="powered-by">Powered by Gemini AI</span>
+        </div>
+        <div class="footer-version">
+          <span class="version-badge">v1.0.0</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Custom Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-dialog" id="modal-dialog">
+      <div class="modal-header" id="modal-header">
+        <h3 class="modal-title" id="modal-title">
+          <span id="modal-icon">📤</span>
+          <span id="modal-title-text">KONFIRMASI POST</span>
+        </h3>
+        <div class="modal-subtitle" id="modal-subtitle">Pastikan konten sudah sesuai sebelum posting</div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-content" id="modal-content">
+          <div class="modal-text" id="modal-text">
+            Apakah Anda yakin ingin memposting konten ini ke Threads? Konten yang sudah diposting tidak dapat dihapus.
+          </div>
+          <div class="modal-actions" id="modal-actions">
+            <button type="button" class="modal-btn" id="modal-cancel">
+              BATAL
+            </button>
+            <button type="button" class="modal-btn btn-primary" id="modal-confirm">
+              YA, POST SEKARANG
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+  <script src="autopost.js"></script>
+</body>
+</html>

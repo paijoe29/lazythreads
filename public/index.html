@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Threads Auto-Reply with Gemini AI</title>
+  <link rel="stylesheet" href="autopost.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Main Navigation Bar -->
+    <div class="navbar-wrapper">
+      <nav class="navbar" id="navbar">
+        <div class="navbar-brand">
+          <span class="logo-icon">🤖</span>
+          <span class="logo-text">THREADS BOT</span>
+        </div>
+        
+        <div class="navbar-spacer"></div>
+        
+        <div class="navbar-menu">
+          <button class="nav-item active" onclick="switchTab('monitoring')" data-tab="monitoring">
+            <span class="nav-icon">🤖</span>
+            <span class="nav-text">AUTO REPLY</span>
+          </button>                  
+          <button class="nav-item" onclick="switchTab('history')" data-tab="history">
+            <span class="nav-icon">📊</span>
+            <span class="nav-text">HISTORY</span>
+          </button>
+          <a href="autopost.html" class="nav-item">
+            <span class="nav-icon">📝</span>
+            <span class="nav-text">AI POST</span>
+          </a>
+          <button class="nav-item" onclick="switchTab('auto')" data-tab="auto">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-text">SETTINGS</span>
+          </button>           
+        </div>
+        
+        <div class="navbar-status">
+          <!-- User Profile Dropdown -->
+          <div class="user-profile" id="user-profile" style="display: none;">
+            <button class="profile-avatar" onclick="toggleProfileDropdown()">
+              <span class="avatar-icon">👤</span>
+            </button>
+            <div class="profile-dropdown" id="profile-dropdown">
+              <div class="profile-header">
+                <div class="profile-avatar-large">
+                  <span class="avatar-icon-large">👤</span>
+                </div>
+                <div class="profile-info">
+                  <div class="profile-email" id="profile-email">user@example.com</div>
+                  <div class="profile-status">Logged In</div>
+                </div>
+              </div>
+              <div class="profile-actions">
+                <button class="profile-action" onclick="logout()">
+                  <span class="action-icon">🚪</span>
+                  <span class="action-text">Logout</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+    
+    <!-- Mobile Menu Panel -->
+    <div class="mobile-menu-panel" id="mobile-menu-panel">
+      <button class="mobile-close-btn" onclick="closeMobileMenu()">✕</button>
+      
+      <div class="mobile-menu-header">
+        <div class="mobile-menu-brand">
+          <span class="logo-icon">🤖</span>
+          <span class="logo-text">THREADS BOT</span>
+        </div>
+      </div>
+      
+      <div class="mobile-menu-content">
+        <button class="mobile-nav-item active" onclick="switchTab('monitoring'); closeMobileMenu();" data-tab="monitoring">
+          <span class="nav-icon">🤖</span>
+          <span class="nav-text">AUTO REPLY</span>
+        </button>                  
+        <button class="mobile-nav-item" onclick="switchTab('history'); closeMobileMenu();" data-tab="history">
+          <span class="nav-icon">📊</span>
+          <span class="nav-text">HISTORY</span>
+        </button>
+        <a href="autopost.html" class="mobile-nav-item" onclick="closeMobileMenu();">
+          <span class="nav-icon">📝</span>
+          <span class="nav-text">AI POST</span>
+        </a>
+        <button class="mobile-nav-item" onclick="switchTab('auto'); closeMobileMenu();" data-tab="auto">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-text">SETTINGS</span>
+        </button>
+      </div>
+      
+      <div class="mobile-menu-footer">
+        <div class="status-indicator">
+          <div class="status-dot" id="mobile-connection-status"></div>
+          <span class="status-text">CONNECTED</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-header">
+        <div class="content-header-content">
+          <h1 class="page-title" id="page-title">AUTO REPLY</h1>
+        <div class="header-status">
+          <div class="status-indicator">
+            <div class="status-dot" id="connection-status"></div>
+            <span class="status-text">CONNECTED</span>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <!-- Manual Reply Tab -->
+      <div id="manual-tab" class="tab-content">
+        <div class="content-card">
+          <div class="card-header">
+            <h2 class="card-title">SEND MANUAL REPLY</h2>
+            <div class="card-subtitle">Reply to comments manually or with AI assistance</div>
+          </div>
+          
+          <form id="reply-form" class="form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="accessToken" class="form-label">ACCESS TOKEN (OPSIONAL)</label>
+                  <div class="input-group">
+                    <input type="password" id="accessToken" name="accessToken" class="form-input" placeholder="Token otomatis dari .env - isi hanya jika override">
+                    <button type="button" id="verify-token-btn" class="btn btn-secondary">
+                      <span class="btn-text">VERIFY</span>
+                      <span class="btn-icon">🔍</span>
+                    </button>
+                  </div>
+                  <div class="form-help">
+                    Belum punya access token? 
+                    <a href="panduan-mudah.html" target="_blank" class="link">📚 PANDUAN SUPER MUDAH - Dapatkan Token dalam 5 Menit!</a> | 
+                    <a href="token-guide.html" target="_blank" class="link">📖 Panduan Lengkap</a>
+                  </div>
+                  <div id="account-info" class="account-info" style="display: none;"></div>
+                </div>
+              </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="postId" class="form-label">POST/COMMENT ID (PUBLIC ONLY)</label>
+                <input type="text" id="postId" name="postId" class="form-input" required placeholder="Enter public post URL or Post ID">
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="commentText" class="form-label">COMMENT TO REPLY TO</label>
+                <textarea id="commentText" name="commentText" rows="3" class="form-textarea" placeholder="Paste the comment here for AI to generate response"></textarea>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="message" class="form-label">MANUAL MESSAGE</label>
+                <textarea id="message" name="message" rows="4" class="form-textarea" placeholder="Enter your manual reply or leave empty to use AI"></textarea>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="useAI" name="useAI" class="checkbox-input">
+                  <span class="checkbox-custom"></span>
+                  <span class="checkbox-text">USE GEMINI AI TO GENERATE RESPONSE</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row ai-only" style="display: none;">
+              <div class="form-group">
+                <label for="tempGeminiKey" class="form-label">GEMINI API KEY (OPTIONAL)</label>
+                <input type="password" id="tempGeminiKey" name="tempGeminiKey" class="form-input" placeholder="Use if not configured in settings">
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <span class="btn-text">SEND REPLY</span>
+                <span class="btn-icon">🚀</span>
+              </button>
+              <button type="button" id="test-ai-btn" class="btn btn-secondary" style="display: none;">
+                <span class="btn-text">TEST AI</span>
+                <span class="btn-icon">🧪</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Auto Reply Settings Tab -->
+      <div id="auto-tab" class="tab-content">
+        <!-- Two Column Layout for Settings -->
+        <div class="generator-layout">
+          <!-- Left Column - Configuration Form -->
+          <div class="generator-form-column">
+            <div class="content-card">
+              <div class="card-header">
+                <h2 class="card-title">AUTO REPLY CONFIGURATION</h2>
+                <div class="card-subtitle">Configure AI settings and automation parameters</div>
+              </div>
+              
+              <form id="settings-form" class="form">
+                <div class="form-section">
+                  <h3 class="section-title">AI CONFIGURATION</h3>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="geminiApiKey" class="form-label">GEMINI API KEY</label>
+                      <input type="password" id="geminiApiKey" name="geminiApiKey" class="form-input" required placeholder="Enter your Gemini AI API key">
+                      <div class="form-help">Get your API key from <a href="https://makersuite.google.com/app/apikey" target="_blank" class="link">Google AI Studio</a></div>
+                    </div>
+                  </div>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="customPrompt" class="form-label">CUSTOM AI PROMPT</label>
+                      <textarea id="customPrompt" name="customPrompt" rows="4" class="form-textarea" placeholder="Enter custom instructions for AI responses"></textarea>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-section">
+                  <h3 class="section-title">THREADS INTEGRATION</h3>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="autoAccessToken" class="form-label">THREADS ACCESS TOKEN</label>
+                      <div class="input-group">
+                        <input type="password" id="autoAccessToken" name="autoAccessToken" class="form-input" required placeholder="Token akan diambil dari file .env">
+                        <button type="button" id="verify-auto-token-btn" class="btn btn-secondary">
+                          <span class="btn-text">VERIFY</span>
+                          <span class="btn-icon">🔍</span>
+                        </button>
+                        <button type="button" id="debug-token-btn" class="btn btn-warning">
+                          <span class="btn-text">DEBUG TOKEN</span>
+                          <span class="btn-icon">🔧</span>
+                        </button>
+                      </div>
+                      <div class="form-help">
+                        Token diambil otomatis dari file .env (THREADS_ACCESS_TOKEN). 
+                        <strong>Gunakan tombol DEBUG untuk troubleshooting masalah akses!</strong>
+                        Belum punya access token? 
+                        <a href="panduan-mudah.html" target="_blank" class="link">📚 PANDUAN SUPER MUDAH - Dapatkan Token dalam 5 Menit!</a> | 
+                        <a href="token-guide.html" target="_blank" class="link">📖 Panduan Lengkap</a>
+                      </div>
+                      <div id="auto-account-info" class="account-info" style="display: none;"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-section">
+                  <h3 class="section-title">AUTOMATION SETTINGS</h3>
+                  <div class="form-row">
+                    <div class="form-group half">
+                      <label for="interval" class="form-label">CHECK INTERVAL (SECONDS)</label>
+                      <input type="number" id="interval" name="interval" min="30" value="30" class="form-input">
+                    </div>
+                    <div class="form-group half">
+                      <label for="maxReplies" class="form-label">MAX REPLIES PER POST</label>
+                      <input type="number" id="maxReplies" name="maxReplies" min="1" max="10" value="3" class="form-input">
+                    </div>
+                  </div>
+                  
+                  <div class="form-row">
+                    <div class="checkbox-group">
+                      <label class="checkbox-label">
+                        <input type="checkbox" id="autoReplyEnabled" name="autoReplyEnabled" class="checkbox-input">
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text">ENABLE AUTO REPLY</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    <span class="btn-text">SAVE SETTINGS</span>
+                    <span class="btn-icon">💾</span>
+                  </button>
+                  <button type="button" id="start-auto-reply-btn" class="btn btn-success">
+                    <span class="btn-text">START AUTO REPLY</span>
+                    <span class="btn-icon">▶️</span>
+                  </button>
+                  <button type="button" id="stop-auto-reply-btn" class="btn btn-danger">
+                    <span class="btn-text">STOP AUTO REPLY</span>
+                    <span class="btn-icon">⏹️</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Right Column - System Status -->
+          <div class="generator-result-column">
+            <div class="content-card">
+              <div class="card-header">
+                <h2 class="card-title">SYSTEM STATUS</h2>
+                <div class="card-subtitle">Current configuration and runtime status</div>
+              </div>
+              <div class="status-grid" id="auto-status">
+                <!-- Status items will be populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Auto Reply Tab -->
+      <div id="monitoring-tab" class="tab-content active">
+        <!-- Two Column Layout for Monitoring -->
+        <div class="generator-layout">
+          <!-- Left Column - Add Post Form -->
+          <div class="generator-form-column">
+            <div class="content-card">
+              <div class="card-header">
+                <h2 class="card-title">AUTO REPLY</h2>
+                <div class="card-subtitle">Add and manage posts for automatic monitoring and AI replies</div>
+              </div>
+              
+              <div class="generator-info">
+                <div class="info-box">
+                  <h4>🤖 Cara Kerja Auto-Reply:</h4>
+                  <ul>
+                    <li>✅ <strong>Auto-Reply postingan</strong> (milik Anda)</li>
+                    <li>🔄 <strong>Bot cek komentar baru</strong> setiap 30 detik (default)</li>
+                    <li>💬 <strong>Otomatis balas</strong> menggunakan Gemini AI</li>
+                    <li>📊 <strong>Maksimal 3 balasan</strong> per postingan (bisa diatur)</li>
+                    <li>🚫 <strong>Tidak double reply</strong> ke komentar yang sama</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div class="form-section">
+                <h3 class="section-title">📋 ADD POST TO MONITOR</h3>
+                
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="newPostInput" class="form-label">POST ID OR URL</label>
+                    <input type="text" id="newPostInput" class="form-input" placeholder="Paste Post ID (180466007184469) atau URL Threads di sini">
+                    
+                    <div class="form-help">
+                      💡 <strong>Cara mudah:</strong> Copy Post ID langsung atau paste URL Threads!<br>
+                      ✅ <strong>Support:</strong> <code>threads.net</code> dan <code>threads.com</code><br>
+                      📋 <strong>Cara dapat:</strong> Klik kanan post public → Copy link → Paste di sini<br>
+                      ⚠️ <strong>Catatan:</strong> Sistem hanya memproses post yang bersifat public
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-actions horizontal-buttons">
+                  <button type="button" id="extract-id-btn" class="btn btn-tertiary">
+                    <span class="btn-icon">🔗</span>
+                    <span class="btn-text">EXTRACT ID</span>
+                  </button>
+                  <button type="button" id="preview-post-btn" class="btn btn-secondary">
+                    <span class="btn-icon">👁️</span>
+                    <span class="btn-text">PREVIEW</span>
+                  </button>
+                  <button type="button" id="add-post-btn" class="btn btn-primary">
+                    <span class="btn-icon">➕</span>
+                    <span class="btn-text">ADD POST</span>
+                  </button>
+                </div>
+                
+                <!-- Extracted Post ID Display -->
+                <div id="extracted-post-id" class="form-section" style="display: none;">
+                  <h3 class="section-title">📋 EXTRACTED POST ID</h3>
+                  
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="extracted-id-value" class="form-label">EXTRACTED ID</label>
+                      <input type="text" id="extracted-id-value" class="form-input" readonly>
+                      <div class="form-help">
+                        ✅ <strong>Post ID berhasil di-extract dari URL.</strong> Anda bisa langsung ADD untuk monitoring atau PREVIEW terlebih dahulu.
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="form-actions">
+                    <button type="button" id="copy-extracted-id" class="btn btn-secondary" title="Copy Post ID">
+                      <span class="btn-icon">📋</span>
+                      <span class="btn-text">COPY ID</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column - Monitored Posts List -->
+          <div class="generator-result-column">
+            <!-- Post Preview Section -->
+            <div class="monitoring-results-section">
+              <div id="post-preview" class="post-preview" style="display: none;">
+                <div class="content-card">
+                  <div class="card-header">
+                    <h3 class="card-title">👁️ POST PREVIEW</h3>
+                    <div class="card-subtitle">Preview of the post to be monitored</div>
+                  </div>
+                  <div class="preview-content">
+                    <!-- Preview content will be populated by JavaScript -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="content-card">
+              <div class="card-header">
+                <h2 class="card-title">CURRENTLY MONITORED</h2>
+                <div class="card-subtitle">Posts being monitored for auto-reply</div>
+              </div>
+              
+              <div class="monitored-section">
+                <div class="monitored-list" id="monitored-list">
+                  <!-- Monitored posts will be populated by JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reply History Tab -->
+      <div id="history-tab" class="tab-content">
+        <div class="content-card">
+          <div class="card-header">
+            <h2 class="card-title">REPLY HISTORY</h2>
+            <div class="card-subtitle">Track all automatic replies sent by the system</div>
+          </div>
+          
+          <div class="history-controls">
+            <button type="button" id="refresh-history-btn" class="btn btn-secondary">
+              <span class="btn-text">REFRESH</span>
+              <span class="btn-icon">🔄</span>
+            </button>
+            <button type="button" id="clear-history-btn" class="btn btn-danger">
+              <span class="btn-text">CLEAR ALL</span>
+              <span class="btn-icon">🗑️</span>
+            </button>
+          </div>
+          
+          <div class="history-section">
+            <div class="history-list" id="history-list">
+              <!-- History items will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Global Status Messages -->
+      <div id="status" class="status-messages"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-brand">
+            <span class="footer-logo">🤖</span>
+            <span class="footer-title">THREADS BOT</span>
+          </div>
+          <div class="footer-description">
+            AI-powered auto-reply bot untuk Threads dengan teknologi Gemini AI
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">DOKUMENTASI</h4>
+          <div class="footer-links">
+            <a href="panduan-mudah.html" class="footer-link">
+              <span class="link-icon">📚</span>
+              <span class="link-text">Panduan Super Mudah</span>
+            </a>
+            <a href="token-guide.html" class="footer-link">
+              <span class="link-icon">📖</span>
+              <span class="link-text">Panduan Lengkap Token</span>
+            </a>
+            <a href="https://lazyprompt.io" class="footer-link">
+              <span class="link-icon">✨</span>
+              <span class="link-text">AI Prompt Generator</span>
+            </a>
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h4 class="footer-section-title">FITUR UTAMA</h4>
+          <div class="footer-features">
+            <div class="feature-item">🤖 Auto Reply AI</div>
+            <div class="feature-item">📝 Content Generator</div>
+            <div class="feature-item">📊 Analytics & History</div>
+            <div class="feature-item">⚙️ Easy Configuration</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="footer-copyright">
+          <span class="copyright-text">© 2025 Threads Bot AI. All rights reserved.</span>
+          <span class="powered-by">Powered by Gemini AI</span>
+        </div>
+        <div class="footer-version">
+          <span class="version-badge">v1.0.0</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>

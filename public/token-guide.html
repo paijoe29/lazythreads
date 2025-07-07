@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cara Mendapatkan Access Token - Threads Auto Reply</title>
+    <link rel="stylesheet" href="autopost.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Main Navigation Bar -->
+        <div class="navbar-wrapper">
+            <nav class="navbar" id="navbar">
+                <div class="navbar-brand">
+                    <span class="logo-icon">📚</span>
+                    <span class="logo-text">TOKEN GUIDE</span>
+                </div>
+                
+                <div class="navbar-spacer"></div>
+                
+                <div class="navbar-menu">
+                    <a href="index.html" class="nav-item">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">DASHBOARD</span>
+                    </a>
+                    <a href="panduan-mudah.html" class="nav-item">
+                        <span class="nav-icon">🔥</span>
+                        <span class="nav-text">PANDUAN MUDAH</span>
+                    </a>
+                    <button class="nav-item active">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-text">PANDUAN LENGKAP</span>
+                    </button>
+                </div>
+                
+                <div class="navbar-status">
+                    <div class="status-indicator">
+                        <div class="status-dot" id="ai-status"></div>
+                        <span class="status-text">GUIDE READY</span>
+                    </div>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+        
+        <!-- Mobile Menu Panel -->
+        <div class="mobile-menu-panel" id="mobile-menu-panel">
+            <button class="mobile-close-btn" onclick="closeMobileMenu()">✕</button>
+            
+            <div class="mobile-menu-header">
+                <div class="mobile-menu-brand">
+                    <span class="logo-icon">📚</span>
+                    <span class="logo-text">TOKEN GUIDE</span>
+                </div>
+            </div>
+            
+            <div class="mobile-menu-content">
+                <a href="index.html" class="mobile-nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">DASHBOARD</span>
+                </a>
+                <a href="panduan-mudah.html" class="mobile-nav-item">
+                    <span class="nav-icon">🔥</span>
+                    <span class="nav-text">PANDUAN MUDAH</span>
+                </a>
+                <button class="mobile-nav-item active">
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-text">PANDUAN LENGKAP</span>
+                </button>
+            </div>
+            
+            <div class="mobile-menu-footer">
+                <div class="status-indicator">
+                    <div class="status-dot" id="mobile-connection-status"></div>
+                    <span class="status-text">GUIDE READY</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <div class="content-header-content">
+                    <h1 class="page-title" id="page-title">📚 PANDUAN LENGKAP TOKEN</h1>
+                    <div class="header-status">
+                        <div class="status-indicator">
+                            <div class="status-dot" id="ai-status"></div>
+                            <span class="status-text">GUIDE READY</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Warning Section -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">⚠️ PENTING: BACA INI DULU!</h2>
+                    <div class="card-subtitle">ACCESS TOKEN = KUNCI UNTUK MENGAKSES API THREADS</div>
+                </div>
+                <div class="form">
+                    <div class="info-box">
+                        <h4>TANPA TOKEN, BOT TIDAK BISA MENGAKSES THREADS API</h4>
+                        <p>Access Token diperlukan untuk mengakses API Threads. Ikuti langkah-langkah dengan teliti untuk mendapatkan token yang valid.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- METHOD 1 -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">🎯 METODE 1: META FOR DEVELOPERS (RECOMMENDED)</h2>
+                    <div class="card-subtitle">Cara paling mudah dan reliable untuk mendapatkan access token</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <h3 class="section-title">1️⃣ PERSIAPAN AKUN</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">LANGKAH-LANGKAH:</label>
+                                <ul class="form-help">
+                                    <li data-icon="🔗">Buka <a href="https://developers.facebook.com/" target="_blank">Meta for Developers</a></li>
+                                    <li data-icon="🔑">Login dengan akun Facebook/Meta yang terhubung dengan Threads</li>
+                                    <li data-icon="✅">Pastikan akun Threads Anda sudah aktif dan verified</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">2️⃣ BUAT APLIKASI</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">LANGKAH-LANGKAH:</label>
+                                <ul class="form-help">
+                                    <li data-icon="👆">Klik "My Apps" di menu atas</li>
+                                    <li data-icon="➕">Pilih "Create App"</li>
+                                    <li data-icon="📱">Pilih jenis aplikasi: "Consumer" atau "Other"</li>
+                                    <li data-icon="📝">Isi informasi aplikasi:
+                                        <ul>
+                                            <li><strong>App name:</strong> <code>Threads Auto Reply Bot</code></li>
+                                            <li><strong>App contact email:</strong> email Anda</li>
+                                            <li><strong>Purpose:</strong> <code>Personal/Development</code></li>
+                                        </ul>
+                                    </li>
+                                    <li data-icon="✅">Klik "Create App"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">3️⃣ SETUP THREADS API</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">LANGKAH-LANGKAH:</label>
+                                <ul class="form-help">
+                                    <li data-icon="🏠">Masuk ke dashboard aplikasi yang baru dibuat</li>
+                                    <li data-icon="📜">Scroll ke bagian "Add Products to Your App"</li>
+                                    <li data-icon="🔍">Cari dan klik "Threads API"</li>
+                                    <li data-icon="⚙️">Klik "Set Up" pada Threads API</li>
+                                    <li data-icon="🚀">Pilih "Get Started"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">4️⃣ KONFIGURASI BASIC SETTINGS</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">LANGKAH-LANGKAH:</label>
+                                <ul class="form-help">
+                                    <li data-icon="⚙️">Masuk ke <strong>Threads API > Basic Settings</strong></li>
+                                    <li data-icon="📝">Isi informasi aplikasi:
+                                        <ul>
+                                            <li><strong>App Domain:</strong> <code>localhost</code> (untuk development)</li>
+                                            <li><strong>Privacy Policy URL:</strong> (opsional untuk dev)</li>
+                                            <li><strong>Terms of Service URL:</strong> (opsional untuk dev)</li>
+                                        </ul>
+                                    </li>
+                                    <li data-icon="💾">Save perubahan</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">5️⃣ DAPATKAN ACCESS TOKEN</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">LANGKAH-LANGKAH:</label>
+                                <ul class="form-help">
+                                    <li data-icon="🔧">Masuk ke <strong>Threads API > Tools</strong></li>
+                                    <li data-icon="🔍">Pilih "Access Token Debugger" atau "Graph API Explorer"</li>
+                                    <li data-icon="⚡">Atau gunakan <strong>Threads API > Quick Start</strong></li>
+                                    <li data-icon="🎯">Generate User Access Token dengan scope:
+                                        <ul>
+                                            <li><code>threads_basic</code></li>
+                                            <li><code>threads_content_publish</code></li>
+                                            <li><code>threads_manage_insights</code> (opsional)</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">6️⃣ TEST ACCESS TOKEN</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">TEST COMMAND:</label>
+                                <div class="form-help">
+                                    💡 <strong>Test token dengan command berikut:</strong>
+                                </div>
+                                <div class="info-box">
+                                    <code>curl -X GET "https://graph.threads.net/v1.0/me?access_token=YOUR_TOKEN&fields=id,username,name"</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+            <!-- METHOD 2 -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">🎯 METODE 2: GRAPH API EXPLORER (CEPAT)</h2>
+                    <div class="card-subtitle">Cara cepat untuk mendapatkan token jika sudah punya aplikasi</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <h3 class="section-title">LANGKAH CEPAT</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">LANGKAH-LANGKAH:</label>
+                                <ul class="form-help">
+                                    <li data-icon="🔗">Buka <a href="https://developers.facebook.com/tools/explorer/" target="_blank">Graph API Explorer</a></li>
+                                    <li data-icon="📱">Pilih aplikasi yang sudah dibuat</li>
+                                    <li data-icon="👤">Pilih "User Token"</li>
+                                    <li data-icon="🔑">Add Permissions:
+                                        <ul>
+                                            <li><code>threads_basic</code></li>
+                                            <li><code>threads_content_publish</code></li>
+                                        </ul>
+                                    </li>
+                                    <li data-icon="⚡">Generate Access Token</li>
+                                    <li data-icon="📋">Copy token yang dihasilkan</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCOPE INFO -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">📝 INFORMASI SCOPE YANG DIPERLUKAN</h2>
+                    <div class="card-subtitle">Permissions yang dibutuhkan untuk mengakses Threads API</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">SCOPE PERMISSIONS:</label>
+                                <div class="info-box">
+                                    <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                                        <thead>
+                                            <tr style="background: var(--primary-color); color: var(--secondary-color);">
+                                                <th style="border: 1px solid var(--primary-color); padding: 10px; text-align: left;">Scope</th>
+                                                <th style="border: 1px solid var(--primary-color); padding: 10px; text-align: left;">Deskripsi</th>
+                                                <th style="border: 1px solid var(--primary-color); padding: 10px; text-align: left;">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="border: 1px solid var(--primary-color); padding: 10px;"><code>threads_basic</code></td>
+                                                <td style="border: 1px solid var(--primary-color); padding: 10px;">Akses info profil basic</td>
+                                                <td style="border: 1px solid var(--primary-color); padding: 10px;"><span style="color: #d73502; font-weight: 700;">✅ Wajib</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border: 1px solid var(--primary-color); padding: 10px;"><code>threads_content_publish</code></td>
+                                                <td style="border: 1px solid var(--primary-color); padding: 10px;">Publish konten & replies</td>
+                                                <td style="border: 1px solid var(--primary-color); padding: 10px;"><span style="color: #d73502; font-weight: 700;">✅ Wajib</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="border: 1px solid var(--primary-color); padding: 10px;"><code>threads_manage_insights</code></td>
+                                                <td style="border: 1px solid var(--primary-color); padding: 10px;">Analytics & insights</td>
+                                                <td style="border: 1px solid var(--primary-color); padding: 10px;"><span style="color: #666;">⚪ Opsional</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VERIFICATION -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">🔍 CARA VERIFIKASI TOKEN</h2>
+                    <div class="card-subtitle">Pastikan Access Token berfungsi dengan benar</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <h3 class="section-title">1️⃣ Melalui Dashboard</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">LANGKAH-LANGKAH:</label>
+                                <ul class="form-help">
+                                    <li data-icon="🏠">Buka dashboard auto-reply</li>
+                                    <li data-icon="📝">Masukkan access token di field</li>
+                                    <li data-icon="🔍">Klik tombol "VERIFY"</li>
+                                    <li data-icon="👀">Lihat info akun yang muncul</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">2️⃣ Manual Test</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">COMMAND:</label>
+                                <div class="info-box">
+                                    <code>curl -X GET "https://graph.threads.net/v1.0/me?access_token=YOUR_TOKEN&fields=id,username,name,threads_profile_picture_url,threads_biography"</code>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">RESPONSE SUKSES:</label>
+                                <div class="info-box">
+                                    <pre>{
+  "id": "12345678901234567",
+  "username": "your_username", 
+  "name": "Your Display Name",
+  "threads_profile_picture_url": "https://...",
+  "threads_biography": "Your bio"
+}</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TROUBLESHOOTING -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">⚠️ TROUBLESHOOTING ACCESS TOKEN</h2>
+                    <div class="card-subtitle">Solusi untuk masalah umum yang sering terjadi</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <h3 class="section-title">❌ Invalid OAuth Access Token</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">SOLUSI:</label>
+                                <ul class="form-help">
+                                    <li data-icon="⏰">Token expired atau format salah</li>
+                                    <li data-icon="🔄">Generate token baru</li>
+                                    <li data-icon="🔍">Periksa format token</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">❌ Insufficient Permissions</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">SOLUSI:</label>
+                                <ul class="form-help">
+                                    <li data-icon="🔑">Scope tidak lengkap</li>
+                                    <li data-icon="➕">Tambahkan scope yang diperlukan</li>
+                                    <li data-icon="🔄">Re-authorize aplikasi</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">❌ App Not Approved</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">SOLUSI:</label>
+                                <ul class="form-help">
+                                    <li data-icon="⚙️">Aplikasi belum disetup dengan benar</li>
+                                    <li data-icon="📝">Lengkapi setup aplikasi di Meta for Developers</li>
+                                    <li data-icon="✅">Pastikan semua konfigurasi sudah benar</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">❌ Rate Limit Exceeded</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">SOLUSI:</label>
+                                <ul class="form-help">
+                                    <li data-icon="⏰">Terlalu banyak request</li>
+                                    <li data-icon="⏸️">Tunggu beberapa menit sebelum mencoba lagi</li>
+                                    <li data-icon="🔄">Implementasikan retry logic</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECURITY -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">🔐 KEAMANAN ACCESS TOKEN</h2>
+                    <div class="card-subtitle">Tips penting untuk menjaga keamanan Access Token</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <h3 class="section-title">✅ DO's - Yang Harus Dilakukan</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">PRAKTIK TERBAIK:</label>
+                                <ul class="form-help">
+                                    <li data-icon="🔒">Simpan token di environment variables</li>
+                                    <li data-icon="🔐">Gunakan HTTPS untuk semua request</li>
+                                    <li data-icon="🔄">Regenerate token secara berkala</li>
+                                    <li data-icon="🎯">Batasi scope sesuai kebutuhan</li>
+                                    <li data-icon="📊">Monitor penggunaan token</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">❌ DON'Ts - Yang Tidak Boleh Dilakukan</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">HINDARI HAL INI:</label>
+                                <ul class="form-help">
+                                    <li data-icon="🚫">Jangan commit token ke git</li>
+                                    <li data-icon="🚫">Jangan share token ke orang lain</li>
+                                    <li data-icon="🚫">Jangan gunakan token di URL public</li>
+                                    <li data-icon="🚫">Jangan simpan token di frontend</li>
+                                    <li data-icon="🚫">Jangan hardcode token di source code</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FINAL MESSAGE -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">🚀 SIAP DIGUNAKAN!</h2>
+                    <div class="card-subtitle">Token sudah siap untuk digunakan</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div class="info-box">
+                                    <p><strong>Setelah mendapatkan access token:</strong></p>
+                                    <ul class="form-help">
+                                        <li data-icon="📋">Copy access token yang sudah didapat</li>
+                                        <li data-icon="🏠">Kembali ke dashboard auto-reply</li>
+                                        <li data-icon="📝">Paste token di field yang tersedia</li>
+                                        <li data-icon="🔍">Verify token untuk memastikan berfungsi</li>
+                                        <li data-icon="🚀">Mulai menggunakan auto-reply bot!</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <a href="index.html" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-right: 10px;">
+                                    <span>←</span> KEMBALI KE DASHBOARD
+                                </a>
+                                <a href="panduan-mudah.html" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none;">
+                                    <span>📖</span> PANDUAN MUDAH
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>

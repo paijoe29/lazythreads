@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Panduan Super Mudah - Dapatkan Access Token</title>
+    <link rel="stylesheet" href="autopost.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Main Navigation Bar -->
+        <div class="navbar-wrapper">
+            <nav class="navbar" id="navbar">
+                <div class="navbar-brand">
+                    <span class="logo-icon">📖</span>
+                    <span class="logo-text">TOKEN GUIDE</span>
+                </div>
+                
+                <div class="navbar-spacer"></div>
+                
+                <div class="navbar-menu">
+                    <a href="index.html" class="nav-item">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">DASHBOARD</span>
+                    </a>
+                    <button class="nav-item active">
+                        <span class="nav-icon">🔥</span>
+                        <span class="nav-text">PANDUAN MUDAH</span>
+                    </button>
+                    <a href="token-guide.html" class="nav-item">
+                        <span class="nav-icon">📚</span>
+                        <span class="nav-text">PANDUAN LENGKAP</span>
+                    </a>
+                </div>
+                
+                <div class="navbar-status">
+                    <div class="status-indicator">
+                        <div class="status-dot" id="ai-status"></div>
+                        <span class="status-text">ONLINE</span>
+                    </div>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+        
+        <!-- Mobile Menu Panel -->
+        <div class="mobile-menu-panel" id="mobile-menu-panel">
+            <button class="mobile-close-btn" onclick="closeMobileMenu()">✕</button>
+            
+            <div class="mobile-menu-header">
+                <div class="mobile-menu-brand">
+                    <span class="logo-icon">📖</span>
+                    <span class="logo-text">TOKEN GUIDE</span>
+                </div>
+            </div>
+            
+            <div class="mobile-menu-content">
+                <a href="index.html" class="mobile-nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">DASHBOARD</span>
+                </a>
+                <button class="mobile-nav-item active">
+                    <span class="nav-icon">🔥</span>
+                    <span class="nav-text">PANDUAN MUDAH</span>
+                </button>
+                <a href="token-guide.html" class="mobile-nav-item">
+                    <span class="nav-icon">📚</span>
+                    <span class="nav-text">PANDUAN LENGKAP</span>
+                </a>
+            </div>
+            
+            <div class="mobile-menu-footer">
+                <div class="status-indicator">
+                    <div class="status-dot" id="mobile-connection-status"></div>
+                    <span class="status-text">ONLINE</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <div class="content-header-content">
+                    <h1 class="page-title" id="page-title">🔥 PANDUAN SUPER MUDAH</h1>
+                    <div class="header-status">
+                        <div class="status-indicator">
+                            <div class="status-dot" id="ai-status"></div>
+                            <span class="status-text">GUIDE READY</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Warning Section -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">⚠️ PENTING: BACA INI DULU!</h2>
+                    <div class="card-subtitle">ACCESS TOKEN = KUNCI UNTUK MENGAKSES AKUN THREADS ANDA</div>
+                </div>
+                <div class="form">
+                    <div class="info-box">
+                        <h4>TANPA TOKEN, BOT TIDAK BISA MEMBALAS KOMENTAR</h4>
+                        <p>Token adalah kunci autentikasi yang memungkinkan aplikasi mengakses API Threads untuk membaca dan membalas komentar secara otomatis.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 1 -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">1️⃣ PERSIAPAN AKUN</h2>
+                    <div class="card-subtitle">Pastikan semua requirements terpenuhi</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <ul class="form-help">
+                            <li data-icon="✅">Pastikan Anda punya akun Threads yang aktif</li>
+                            <li data-icon="✅">Pastikan akun terhubung dengan Facebook/Meta</li>
+                            <li data-icon="✅">Buka komputer/laptop (bukan HP untuk hasil terbaik)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">2️⃣ BUKA META FOR DEVELOPERS</h2>
+                    <div class="card-subtitle">Akses platform developer Facebook</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">LANGKAH-LANGKAH:</label>
+                                <ul class="form-help">
+                                    <li data-icon="🔗">Ketik di browser: <code>https://developers.facebook.com</code></li>
+                                    <li data-icon="🔑">Login dengan akun Facebook yang sama dengan Threads</li>
+                                    <li data-icon="✅">Jika diminta verifikasi, lakukan verifikasi</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <a href="https://developers.facebook.com" target="_blank" class="btn btn-primary">
+                                <span class="btn-text">BUKA META FOR DEVELOPERS</span>
+                                <span class="btn-icon">🚀</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">3️⃣ BUAT APLIKASI BARU</h2>
+                    <div class="card-subtitle">Setup aplikasi untuk mendapatkan token</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">LANGKAH-LANGKAH:</label>
+                                <ul class="form-help">
+                                    <li data-icon="📱">Klik "My Apps" (pojok kanan atas)</li>
+                                    <li data-icon="➕">Klik "Create App" (tombol hijau/biru)</li>
+                                    <li data-icon="👤">Pilih "Consumer" atau "Other" (untuk personal)</li>
+                                    <li data-icon="▶️">Klik "Next"</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">4️⃣ ISI DATA APLIKASI</h2>
+                    <div class="card-subtitle">Konfigurasi dasar aplikasi</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">CONTOH PENGISIAN:</label>
+                                <div style="background-color: var(--primary-black); color: var(--primary-white); padding: var(--spacing-md); font-family: var(--font-mono); margin: var(--spacing-md) 0;">
+App Name: AutoReply Bot<br>
+App Contact Email: [email Anda]
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <ul class="form-help">
+                                    <li data-icon="✅">Klik "Create App"</li>
+                                    <li data-icon="⏳">Tunggu sampai aplikasi selesai dibuat</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARA TERMUDAH -->
+            <div class="content-card">
+                <div class="card-header" style="background-color: #28a745;">
+                    <h2 class="card-title">🎯 CARA TERMUDAH - LANGSUNG KE GRAPH API EXPLORER</h2>
+                    <div class="card-subtitle">Skip langkah rumit, langsung ke tools!</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <div class="info-box" style="background-color: #d4edda; border-color: #28a745;">
+                            <h4>JIKA BINGUNG DENGAN LANGKAH DI ATAS, IKUTI CARA INI:</h4>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">LANGKAH SUPER MUDAH:</label>
+                                <ol style="padding-left: var(--spacing-lg); font-family: var(--font-mono);">
+                                    <li><strong>Buka langsung:</strong> <a href="https://developers.facebook.com/tools/explorer/" target="_blank" style="color: #28a745;">Graph API Explorer</a></li>
+                                    <li><strong>Login</strong> dengan akun Facebook/Meta Anda</li>
+                                    <li><strong>Jika belum ada app:</strong> klik "Create App" → isi nama "ThreadsBot"</li>
+                                    <li><strong>Klik</strong> "Get Token" → pilih "User Token"</li>
+                                    <li><strong>Add Permissions:</strong>
+                                        <ul style="margin: var(--spacing-md) 0; padding-left: var(--spacing-lg);">
+                                            <li>Ketik <code>threads_basic</code> → centang ✅</li>
+                                            <li>Ketik <code>threads_content_publish</code> → centang ✅</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Klik</strong> "Generate Access Token"</li>
+                                    <li><strong>Copy</strong> token yang muncul (text panjang)</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <a href="https://developers.facebook.com/tools/explorer/" target="_blank" class="btn btn-primary">
+                                <span class="btn-text">LANGSUNG KE GRAPH API EXPLORER</span>
+                                <span class="btn-icon">🔗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VERIFIKASI -->
+            <div class="content-card">
+                <div class="card-header">
+                    <h2 class="card-title">5️⃣ VERIFIKASI TOKEN ANDA</h2>
+                    <div class="card-subtitle">Pastikan token valid dan berfungsi</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <h3 class="section-title">CIRI-CIRI TOKEN YANG BENAR:</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <ul class="form-help">
+                                    <li data-icon="✅">Dimulai dengan <code>IGQ</code> atau <code>EAA</code></li>
+                                    <li data-icon="✅">Panjang 100+ karakter</li>
+                                    <li data-icon="✅">Hanya huruf, angka, underscore, dash</li>
+                                    <li data-icon="✅">Tidak ada spasi</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="info-box" style="background-color: #e8f5e8; border-color: #4caf50;">
+                            <h4>CONTOH TOKEN YANG BENAR:</h4>
+                            <div style="font-family: var(--font-mono); word-break: break-all; padding: var(--spacing-sm); background-color: var(--primary-white); border: 1px solid var(--primary-black); margin-top: var(--spacing-sm);">
+                                IGQWRPZABc3N2d1NzZAjVqVzkyRm1PMkJMT0MnY3NFhmTGZAPaXVvQzNGQxR2...
+                            </div>
+                        </div>
+
+                        <h3 class="section-title">TEST DI DASHBOARD:</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <ul class="form-help">
+                                    <li data-icon="🌐">Buka <code>http://localhost:3000</code></li>
+                                    <li data-icon="📋">Paste token di field ACCESS TOKEN</li>
+                                    <li data-icon="🔍">Klik tombol <strong>VERIFY</strong></li>
+                                    <li data-icon="👤">Lihat info akun yang muncul</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <a href="http://localhost:3000" target="_blank" class="btn btn-primary">
+                                <span class="btn-text">BUKA DASHBOARD</span>
+                                <span class="btn-icon">🏠</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TROUBLESHOOTING -->
+            <div class="content-card">
+                <div class="card-header" style="background-color: #dc3545;">
+                    <h2 class="card-title">🔧 JIKA ADA MASALAH</h2>
+                    <div class="card-subtitle">Solusi untuk error yang sering terjadi</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div style="margin-bottom: var(--spacing-md);">
+                                    <strong style="color: #dc3545;">❌ "App not found"</strong><br>
+                                    <strong>Solusi:</strong> Buat aplikasi baru di Meta for Developers
+                                </div>
+                                
+                                <div style="margin-bottom: var(--spacing-md);">
+                                    <strong style="color: #dc3545;">❌ "Invalid access token"</strong><br>
+                                    <strong>Solusi:</strong> Generate token baru, pastikan permissions sudah benar
+                                </div>
+                                
+                                <div style="margin-bottom: var(--spacing-md);">
+                                    <strong style="color: #dc3545;">❌ "Insufficient permissions"</strong><br>
+                                    <strong>Solusi:</strong> Tambahkan <code>threads_basic</code> dan <code>threads_content_publish</code>
+                                </div>
+                                
+                                <div style="margin-bottom: var(--spacing-md);">
+                                    <strong style="color: #dc3545;">❌ "Rate limit exceeded"</strong><br>
+                                    <strong>Solusi:</strong> Tunggu 10 menit, lalu coba lagi
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK LINKS -->
+            <div class="content-card">
+                <div class="card-header" style="background-color: #1976d2;">
+                    <h2 class="card-title">🔗 LINK PENTING</h2>
+                    <div class="card-subtitle">Akses cepat ke tools yang dibutuhkan</div>
+                </div>
+                <div class="form">
+                    <div class="form-actions">
+                        <a href="https://developers.facebook.com/" target="_blank" class="btn btn-primary">
+                            <span class="btn-text">META FOR DEVELOPERS</span>
+                            <span class="btn-icon">🏢</span>
+                        </a>
+                        <a href="https://developers.facebook.com/tools/explorer/" target="_blank" class="btn btn-primary">
+                            <span class="btn-text">GRAPH API EXPLORER</span>
+                            <span class="btn-icon">🔍</span>
+                        </a>
+                        <a href="index.html" class="btn btn-secondary">
+                            <span class="btn-text">DASHBOARD AUTO REPLY</span>
+                            <span class="btn-icon">🏠</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EMERGENCY -->
+            <div class="content-card">
+                <div class="card-header" style="background-color: #f44336;">
+                    <h2 class="card-title">🆘 MASIH BINGUNG?</h2>
+                    <div class="card-subtitle">Support dan bantuan tambahan</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <div class="info-box" style="background-color: #ffebee; border-color: #f44336;">
+                            <p>Jika masih mengalami kesulitan, jangan ragu untuk bertanya!</p>
+                            <p>Screenshot error atau masalah yang Anda hadapi dan kirimkan.</p>
+                            <p><strong>💡 INGAT:</strong> Token seperti password - jangan share ke orang lain!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUCCESS -->
+            <div class="content-card">
+                <div class="card-header" style="background-color: #28a745;">
+                    <h2 class="card-title">🎉 SELAMAT!</h2>
+                    <div class="card-subtitle">Anda siap menggunakan auto-reply bot</div>
+                </div>
+                <div class="form">
+                    <div class="form-section">
+                        <div class="info-box" style="background-color: #d4edda; border-color: #28a745; text-align: center;">
+                            <h4>Setelah dapat token, Anda siap menggunakan auto-reply bot!</h4>
+                        </div>
+                        
+                        <div class="form-actions" style="justify-content: center;">
+                            <a href="index.html" class="btn btn-primary" style="font-size: 1.3rem; padding: 15px 30px;">
+                                <span class="btn-text">MULAI GUNAKAN BOT</span>
+                                <span class="btn-icon">🚀</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
