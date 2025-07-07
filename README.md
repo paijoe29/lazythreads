@@ -61,7 +61,6 @@ Aplikasi ini menggunakan Supabase untuk otentikasi pengguna dan sebagai lapisan 
     SUPABASE_ANON_KEY=your_supabase_anon_key_here
     ```
 
-    Jika Anda tidak mengkonfigurasi variabel ini, fitur otentikasi akan dinonaktifkan.
 
 ## Mendapatkan Token Akses Threads
 
