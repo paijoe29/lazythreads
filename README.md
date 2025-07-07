@@ -96,3 +96,4 @@ Aplikasi akan berjalan di `http://localhost:3000`.
 ├── server.js             # Titik masuk utama aplikasi
 └── README.md             # Dokumentasi ini
 ```
+Apapun yang terjadi saya tidak tanggung jawab, pakai dengan bijak ya.
